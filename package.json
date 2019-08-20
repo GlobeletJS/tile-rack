@@ -1,0 +1,41 @@
+{
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "directories": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build-module",
+    "build-module": "rollup -c build/rollup.config.js",
+    "build-examples": "npm run rollup-examples",
+    "rollup-examples": "cd examples && rollup -c",
+    "postversion": "git push && git push --tags"
+  },
+  "author": "Jeshurun Hembd",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "rollup": "^1.19.4",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^4.2.4"
+  },
+  "name": "tile-rack",
+  "description": "A simple memory cache for map tiles",
+  "main": "dist/tile-rack.bundle.js",
+  "module": "dist/tile-rack.bundle.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjhembd/tile-rack.git"
+  },
+  "keywords": [
+    "tile",
+    "cache",
+    "memory"
+  ],
+  "bugs": {
+    "url": "https://github.com/jjhembd/tile-rack/issues"
+  },
+  "homepage": "https://github.com/jjhembd/tile-rack#readme"
+}
