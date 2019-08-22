@@ -18,7 +18,7 @@ Initialization returns an object with the following methods:
   cropping and scaling required to match a parent tile to the requested
   coordinates
 - prune(metric, threshold): Removes tiles where metric(tile.z, tile.x, tile.y)
-  is larger than threshold
+  is larger than threshold. Return value is the number of tiles in the cache.
 - unrender(group): Sets .rendered flags to false for the specified tilekiln 
   layer group. Also sets the main tile.rendered flag to false, even if no
   group is specified.
