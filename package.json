@@ -12,7 +12,6 @@
   "license": "MIT",
   "name": "tile-rack",
   "description": "A simple memory cache for map tiles",
-  "main": "index.js",
   "module": "index.js",
   "repository": {
     "type": "git",
