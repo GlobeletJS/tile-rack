@@ -1,6 +1,6 @@
 import { initCache } from "./cache.js";
 
-export function wrapTileKiln(size, tileFactory) {
+export function cacheTileKiln(size, tileFactory) {
   const cache = initCache(size, tileFactory);
 
   return {

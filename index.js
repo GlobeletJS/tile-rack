@@ -1,2 +1,2 @@
 export { initCache } from "./src/cache.js";
-export { wrapTileKiln } from "./src/wrapper.js";
+export { cacheTileKiln } from "./src/wrapper.js";

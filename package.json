@@ -6,16 +6,10 @@
   "directories": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c build/rollup.config.js",
     "postversion": "git push && git push --tags"
   },
   "author": "Jeshurun Hembd",
   "license": "MIT",
-  "devDependencies": {
-    "rollup": "^1.19.4",
-    "rollup-plugin-commonjs": "^9.3.4",
-    "rollup-plugin-node-resolve": "^4.2.4"
-  },
   "name": "tile-rack",
   "description": "A simple memory cache for map tiles",
   "main": "index.js",
