@@ -6,6 +6,7 @@ export function init(size, tileFactory) {
   return {
     retrieve: cache.retrieve,
     prune: cache.prune,
+    getPriority: cache.getPriority,
 
     hideGroup,
     showGroup,

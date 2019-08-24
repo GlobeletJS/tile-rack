@@ -7,6 +7,7 @@ export function initCache(size, tileFactory) {
     retrieve: (zxy) => getTileOrParent(zxy[0], zxy[1], zxy[2], 0, 0, size),
     process: (func) => Object.values(tiles).forEach( tile => func(tile) ),
     prune,
+    getPriority: (id) => (tiles[id]) ? tiles[id].priority : undefined,
   };
 
   function getTileOrParent(
@@ -41,7 +42,8 @@ export function initCache(size, tileFactory) {
     if (!tile) { 
       let newTile = tileFactory.create(z, x, y);
       if (newTile) tiles[id] = newTile;
-    } else { // Tile exists but isn't ready. Make sure it is rendering
+    } else if (tileFactory.redraw) {
+      // Tile exists but isn't ready. Make sure it is rendering
       tileFactory.redraw(tile);
     }
 
@@ -53,20 +55,15 @@ export function initCache(size, tileFactory) {
   function prune(metric, threshold) {
     // Remove tiles far from current view (as measured by metric)
     var numTiles = 0;
-
     for ( let id in tiles ) {
       let tile = tiles[id];
       tile.priority = metric(tile.z, tile.x, tile.y);
-      if (tile.priority < threshold) {
-        numTiles ++;
-        if (tile.rendering) tileFactory.priorities[tile.id] = tile.priority;
+      if (tile.priority > threshold) {
+        tile.cancel();  // Cancels ongoing data loads or rendering tasks
+        delete tiles[id];
         continue;
       }
-
-      // Tile is too far away. Cancel any ongoing work and delete it
-      tile.cancel();
-      delete tileFactory.priorities[tile.id];
-      delete tiles[id];
+      numTiles ++;
     }
     return numTiles;
   }
