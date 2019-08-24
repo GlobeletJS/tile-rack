@@ -38,13 +38,10 @@ export function initCache(size, tileFactory) {
     // If the requested tile didn't exist, we need to order it from the factory
     // NOTE: orders are placed AFTER the recursive call for the parent tile,
     // so missing parents will be ordered first
-    if (!tiles[id]) { 
+    if (!tile) { 
       let newTile = tileFactory.create(z, x, y);
       if (newTile) tiles[id] = newTile;
-    } else if (tile.loaded && !tile.rendered && !tile.rendering) { 
-      // Tile exists but isn't rendered and is not in the middle of rendering
-      // We now start redrawing it. Probably won't finish till later, BUT
-      // what if it finishes right away? (i.e., just a recomposite or similar)
+    } else { // Tile exists but isn't ready. Make sure it is rendering
       tileFactory.redraw(tile);
     }
 
@@ -67,11 +64,7 @@ export function initCache(size, tileFactory) {
       }
 
       // Tile is too far away. Cancel any ongoing work and delete it
-      if (!tile.loaded) {
-        console.log("rastermap cache: canceling load for tile " + id);
-        tile.cancelLoad();
-      }
-      tile.canceled = true;
+      tile.cancel();
       delete tileFactory.priorities[tile.id];
       delete tiles[id];
     }
