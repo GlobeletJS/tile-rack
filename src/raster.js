@@ -1,3 +1,9 @@
+import { initCache } from "./cache.js";
+
+export function initRasterCache(tileSize, getURL) {
+  return initCache( tileSize, initRasterFactory(getURL) );
+}
+
 // Basic tile factory for raster data
 export function initRasterFactory(getURL) {
   // Input getURL returns a tile URL for given indices z, x, y, t  (t optional)
