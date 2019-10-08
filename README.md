@@ -57,7 +57,7 @@ Initialization returns an object with the following methods:
 - `getPriority(id)`: Returns `tile.priority` for the tile with the supplied id
 
 ## Use with tile-kiln
-If [tile-kiln](https://github.com/jjhembd/tilekiln) is your preferred tile
+If [tile-kiln](https://github.com/GlobeletJS/tile-kiln) is your preferred tile
 factory function, you may wish to use the supplied wrapper function:
 ```javascript
 import { wrapTileKiln } from 'tile-rack';

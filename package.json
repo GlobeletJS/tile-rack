@@ -15,7 +15,7 @@
   "module": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jjhembd/tile-rack.git"
+    "url": "git+https://github.com/GlobeletJS/tile-rack.git"
   },
   "keywords": [
     "tile",
@@ -23,7 +23,7 @@
     "memory"
   ],
   "bugs": {
-    "url": "https://github.com/jjhembd/tile-rack/issues"
+    "url": "https://github.com/GlobeletJS/tile-rack/issues"
   },
-  "homepage": "https://github.com/jjhembd/tile-rack#readme"
+  "homepage": "https://github.com/GlobeletJS/tile-rack#readme"
 }
