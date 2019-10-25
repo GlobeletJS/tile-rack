@@ -48,13 +48,26 @@ Initialization returns an object with the following methods:
   cropping and scaling required to match a parent tile to the requested
   coordinates. The tile itself can be accessed via the `box.tile` property
 - `process(func)`: Calls `func(tile)` for every tile in the cache
-- `prune(metric, threshold)`: Calls `metric` method on every tile in the cache,
+- `trim(metric, threshold)`: Calls `metric` method on every tile in the cache,
   and writes the returned metric value to a `tile.priority` property. Tiles 
-  where `metric(tile.z, tile.x, tile.y) > threshold` are deleted from the
-  cache. Return value is the number of tiles in the cache
-- `trim(metric, threshold)`: Same as `prune` except the signature of `metric`
-  is the more general `metric(tile)`
+  where `metric(tile) > threshold` are deleted from the cache.
+  Return value is the number of tiles in the cache
+- `prune(metric, threshold)`: Same as `trim` except the signature of `metric`
+  is `metric(z, x, y)`. DEPRECATED&mdash;use `trim` instead
 - `getPriority(id)`: Returns `tile.priority` for the tile with the supplied id
+
+## Default tile factory
+For basic raster tile services, you can use the included wrapper:
+```javascript
+import { initRasterCache } from 'tile-rack;
+```
+initRasterCache requires two parameters:
+- tileSize: pixel size at which the (square) tiles will be displayed
+- getURL(z, x, y[, t]): A function that returns a tile URL for given indices
+  z, x, y, t (t is optional)
+
+A default tile factory function will be created, and used to initialize a tile
+cache. The returned object is the same as that returned by `initCache`.
 
 ## Use with tile-kiln
 If [tile-kiln](https://github.com/GlobeletJS/tile-kiln) is your preferred tile

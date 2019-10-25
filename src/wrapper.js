@@ -6,6 +6,7 @@ export function cacheTileKiln(size, tileFactory) {
   return {
     retrieve: cache.retrieve,
     prune: cache.prune,
+    trim: cache.trim,
     getPriority: cache.getPriority,
 
     hideGroup,

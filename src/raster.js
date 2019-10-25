@@ -10,7 +10,7 @@ export function initRasterFactory(getURL) {
 
   return { create };
 
-  function create(z,x, y, t) {
+  function create(z, x, y, t) {
     const tileHref = getURL(z, x, y, t);
     const img = loadImage(tileHref, checkData);
 
