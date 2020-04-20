@@ -59,7 +59,7 @@ Initialization returns an object with the following methods:
 ## Default tile factory
 For basic raster tile services, you can use the included wrapper:
 ```javascript
-import { initRasterCache } from 'tile-rack;
+import { initRasterCache } from 'tile-rack';
 ```
 initRasterCache requires two parameters:
 - tileSize: pixel size at which the (square) tiles will be displayed
