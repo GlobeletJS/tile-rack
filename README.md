@@ -16,14 +16,18 @@ import { initCache } from 'tile-rack';
 ```
 
 ## Initialization
-initCache requires two parameters:
-- size: pixel size at which the (square) tiles will be displayed
-- tileFactory: a function that creates tiles
-
-The supplied tileFactory function must have a method with the following
-signature:
 ```javascript
-newTile = tileFactory.create(...coords)
+const cache = initCache(create, size);
+```
+
+The supplied parameters are:
+- create: a function that creates tiles
+- size: pixel size at which the (square) tiles will be displayed
+
+### Syntax of tile create function
+The supplied create function must have the following signature:
+```javascript
+const newTile = create(...coords);
 ```
 which will return a new tile object at the specified integer coordinates. The
 object must be returned synchronously, even though the actual image data may
@@ -33,24 +37,57 @@ The returned tile object must have the following properties:
 - `.ready`: A (Boolean) flag indicating whether the tile is ready to use
 - `.cancel()`: A method to cancel any ongoing data loads or other factory tasks
 
-### Optional tileFactory methods
-- `tileFactory.getID(coords)`: A method to generate a unique ID from a given 
-  coordinates array. Note that this ID is needed as the argument to the 
-  getPriority method. If a .getID method is not present, default IDs will be 
-  generated as follows: `id = coords.join("/")`
-
 ## API
-Initialization returns an object with the following methods:
-- `retrieve(zxy)`: Inputs an array containing the coordinates of a
-  requested tile, and returns either the tile, or a parent tile. Tiles are
-  returned in a "box" object with sx, sy, sw properties, indicating the
-  cropping and scaling required to match a parent tile to the requested
-  coordinates. The tile itself can be accessed via the `box.tile` property
-- `process(func)`: Calls `func(tile)` for every tile in the cache
-- `trim(metric, threshold)`: Calls `metric` method on every tile in the cache,
-  and writes the returned metric value to a `tile.priority` property. Tiles 
-  where `metric(tile) > threshold` are deleted from the cache.
-  Return value is the number of tiles in the cache
+The cache function returned by `initCache` has three methods: `retrieve`, 
+`process`, and `drop`.
+
+### retrieve
+```javascript
+const tileBox = cache.retrieve(zxy, condition);
+```
+
+The supplied parameters are:
+- `zxy`: An array containing the coordinates of the requested tile
+- `condition`: Stopping condition for the recursion for parent tiles
+  (see below)
+
+The returned `tileBox` is a wrapper object with the following properties:
+- `.tile`: The tile itself: either the one requested, or one of its parents
+- `.sx`: The x-coordinate of the top left corner of the portion of the tile to
+  be used, in units of tile pixels
+- `.sy`: The y-coordinate of the top left corner of the portion of the tile to
+  be used, in units of tile pixels
+- `.sw`: The width of the (square) portion of the tile to be used, in units of
+  tile pixels
+
+If the returned tile is a parent tile, then `sw < size`, and `sx`, `sy`, and
+`sw` can be used to crop and scale the tile to match the area of a tile at
+the requested `zxy`
+
+When the tile at the requested `zxy` is not ready, the cache will recursively
+check for a parent tile at the next lower zoom level. The extent of this
+recursion is limited by the supplied condition. If `condition(zxy) === true`
+for the current tile, `.retrieve` will stop the recursion through parent tiles
+and return undefined.
+
+If a condition is not supplied, recursion will stop when the parent tile zoom
+`pz` meets the following condition:
+```javascript
+pz < 0 || (zxy[0] - pz) > Math.log2(size)
+```
+
+### process
+```javascript
+cache.process(func);
+```
+Executes `func(tile)` for every tile in the cache
+
+### drop
+```javascript
+var numTiles = drop(condition);
+```
+Deletes tiles from the cache for which `condition(tile) === true`.
+Return value is the number of tiles remaining in the cache
 
 ## Default tile factory
 For basic raster tile services, you can use the included wrapper:

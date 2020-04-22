@@ -8,9 +8,7 @@ export function initRasterFactory(getURL) {
   // Basic tile factory for raster data
   // Input getURL returns a tile URL for given indices z, x, y, t  (t optional)
 
-  return { create };
-
-  function create(z, x, y, t) { // t may be undefined, for 3D tile services
+  return function(z, x, y, t) { // t may be undefined, for 3D tile services
     const tileHref = getURL(z, x, y, t);
     const img = loadImage(tileHref, checkData);
 
