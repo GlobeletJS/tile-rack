@@ -14,19 +14,16 @@ export function initCache({ create, size = 512 }) {
   return { retrieve, process, drop };
 
   function retrieve(zxy, condition) {
-    if (!condition) condition = pzxy => {
-      let pz = pzxy[0];
-      let dz = zxy[0] - pz;
-      return pz < 0 || dz > dzmax;
-    };
+    let z = zxy[0];
+    if (!condition) condition = ([pz]) => (pz < 0 || (z - pz) > dzmax);
 
-    return getTileOrParent(zxy, condition, 0, 0, size);
+    return getTileOrParent(zxy, 0, 0, size, condition);
   }
 
   function getTileOrParent(
     zxy,        // Coordinates of the requested tile (could be more than 3D)
-    condition,  // Stopping criterion for recursion
-    sx, sy, sw  // Cropping parameters--which part of the tile to use
+    sx, sy, sw, // Cropping parameters--which part of the tile to use
+    condition   // Stopping criterion for recursion
   ) {
 
     let tile = getOrCreateTile(zxy);
@@ -47,7 +44,7 @@ export function initCache({ create, size = 512 }) {
     let psy = sy / 2 + (y / 2 - py) * size;
     let psw = sw / 2;
 
-    return getTileOrParent(pzxy, psx, psy, psw);
+    return getTileOrParent(pzxy, psx, psy, psw, condition);
   }
 
   function process(func) {
