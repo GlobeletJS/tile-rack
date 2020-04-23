@@ -1,4 +1,4 @@
-export function initCache(create, size = 512) {
+export function initCache({ create, size = 512 }) {
   const tiles = {};
   const dzmax = Math.log2(size);
 

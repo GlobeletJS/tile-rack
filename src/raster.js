@@ -1,7 +1,10 @@
 import { initCache } from "./cache.js";
 
 export function initRasterCache(tileSize, getURL) {
-  return initCache( tileSize, initRasterFactory(getURL) );
+  return initCache({ 
+    create: initRasterFactory(getURL), 
+    size: tileSize 
+  });
 }
 
 function initRasterFactory(getURL) {
