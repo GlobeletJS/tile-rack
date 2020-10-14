@@ -25,6 +25,7 @@ export function initCache({ create, size = 512 }) {
     sx, sy, sw, // Cropping parameters--which part of the tile to use
     condition   // Stopping criterion for recursion
   ) {
+    if (condition(zxy)) return;
 
     let tile = getOrCreateTile(zxy);
     if (!tile) return; // can't create tile for this zxy
@@ -36,8 +37,6 @@ export function initCache({ create, size = 512 }) {
     let px = Math.floor(x / 2);
     let py = Math.floor(y / 2);
     let pzxy = [pz, px, py, ...zxy.slice(3)]; // Include extra coords, if any
-
-    if (condition(pzxy)) return;
 
     // Compute cropping parameters for the parent
     let psx = sx / 2 + (x / 2 - px) * size;
