@@ -3,10 +3,10 @@ export function initCache({ create, size = 512 }) {
   const dzmax = Math.log2(size);
 
   function getOrCreateTile(zxy) {
-    let id = zxy.join("/");
+    const id = zxy.join("/");
     if (tiles[id]) return tiles[id];
 
-    let tile = create(...zxy); // TODO: review create signature
+    const tile = create(...zxy); // TODO: review create signature
     if (tile) tiles[id] = tile;
     return tile;
   }
@@ -14,7 +14,7 @@ export function initCache({ create, size = 512 }) {
   return { retrieve, process, drop };
 
   function retrieve(zxy, condition) {
-    let z = zxy[0];
+    const z = zxy[0];
     if (!condition) condition = ([pz]) => (pz < 0 || (z - pz) > dzmax);
 
     return getTileOrParent(zxy, 0, 0, size, condition);
@@ -27,21 +27,21 @@ export function initCache({ create, size = 512 }) {
   ) {
     if (condition(zxy)) return;
 
-    let tile = getOrCreateTile(zxy);
+    const tile = getOrCreateTile(zxy);
     if (!tile) return; // can't create tile for this zxy
     if (tile.ready) return { tile, sx, sy, sw };
 
     // Get coordinates of the parent tile
-    let [z, x, y] = zxy;
-    let pz = z - 1;
-    let px = Math.floor(x / 2);
-    let py = Math.floor(y / 2);
-    let pzxy = [pz, px, py, ...zxy.slice(3)]; // Include extra coords, if any
+    const [z, x, y] = zxy;
+    const pz = z - 1;
+    const px = Math.floor(x / 2);
+    const py = Math.floor(y / 2);
+    const pzxy = [pz, px, py, ...zxy.slice(3)]; // Include extra coords, if any
 
     // Compute cropping parameters for the parent
-    let psx = sx / 2 + (x / 2 - px) * size;
-    let psy = sy / 2 + (y / 2 - py) * size;
-    let psw = sw / 2;
+    const psx = sx / 2 + (x / 2 - px) * size;
+    const psy = sy / 2 + (y / 2 - py) * size;
+    const psw = sw / 2;
 
     return getTileOrParent(pzxy, psx, psy, psw, condition);
   }
@@ -52,7 +52,7 @@ export function initCache({ create, size = 512 }) {
 
   function drop(condition) {
     var numTiles = 0;
-    for (let id in tiles) {
+    for (const id in tiles) {
       if (condition(tiles[id])) {
         tiles[id].cancel();
         delete tiles[id];

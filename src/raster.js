@@ -1,9 +1,9 @@
 import { initCache } from "./cache.js";
 
 export function initRasterCache(tileSize, getURL) {
-  return initCache({ 
-    create: initRasterFactory(getURL), 
-    size: tileSize 
+  return initCache({
+    create: initRasterFactory(getURL),
+    size: tileSize
   });
 }
 
@@ -26,10 +26,10 @@ function initRasterFactory(getURL) {
     tile.cancel = () => {
       img.src = "";
       tile.canceled = true;
-    }
+    };
 
     return tile;
-  }
+  };
 }
 
 function loadImage(href, callback) {

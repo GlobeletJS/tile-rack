@@ -5,7 +5,8 @@
   ],
   "directories": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src",
+    "test": "npm run lint",
     "postversion": "git push && git push --tags"
   },
   "author": "Jeshurun Hembd",
@@ -25,5 +26,9 @@
   "bugs": {
     "url": "https://github.com/GlobeletJS/tile-rack/issues"
   },
-  "homepage": "https://github.com/GlobeletJS/tile-rack#readme"
+  "homepage": "https://github.com/GlobeletJS/tile-rack#readme",
+  "devDependencies": {
+    "eslint": "^7.30.0",
+    "eslint-config-globeletjs": "^0.0.5"
+  }
 }

@@ -1,5 +1,7 @@
 # tile-rack
 
+![tests](https://github.com/GlobeletJS/tile-rack/actions/workflows/node.js.yml/badge.svg)
+
 A simple memory cache for map tiles
 
 Returns tiles *synchronously*. If the tile at the requested z/x/y indices
