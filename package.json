@@ -29,6 +29,6 @@
   "homepage": "https://github.com/GlobeletJS/tile-rack#readme",
   "devDependencies": {
     "eslint": "^7.30.0",
-    "eslint-config-globeletjs": "^0.0.5"
+    "eslint-config-globeletjs": "^0.0.6"
   }
 }

@@ -51,7 +51,7 @@ export function initCache({ create, size = 512 }) {
   }
 
   function drop(condition) {
-    var numTiles = 0;
+    let numTiles = 0;
     for (const id in tiles) {
       if (condition(tiles[id])) {
         tiles[id].cancel();
